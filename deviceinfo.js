@@ -68,4 +68,7 @@ module.exports = {
   isPinOrFingerprintSet: function () {
     return RNDeviceInfo.isPinOrFingerprintSet;
   },
+  getDeviceIMEI: function(){
+    return RNDeviceInfo.deviceIMEI;
+  },
 };
