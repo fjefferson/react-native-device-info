@@ -109,6 +109,8 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     } catch(Exception e) {
       e.printStackTrace();
     }
+    
+    TelephonyManager imei = (TelephonyManager) this.reactContext.getSystemService(Context.TELEPHONY_SERVICE);
 
     constants.put("instanceId", InstanceID.getInstance(this.reactContext).getId());
     constants.put("deviceName", deviceName);
@@ -117,7 +119,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("model", Build.MODEL);
     constants.put("brand", Build.BRAND);
     constants.put("deviceId", Build.BOARD);
-    constants.put("deviceIMEI", (TelephonyManager) this.reactContext.getSystemService(Context.TELEPHONY_SERVICE));
+    constants.put("deviceIMEI", imei);
     constants.put("deviceLocale", this.getCurrentLanguage());
     constants.put("deviceCountry", this.getCurrentCountry());
     constants.put("uniqueId", Secure.getString(this.reactContext.getContentResolver(), Secure.ANDROID_ID));
