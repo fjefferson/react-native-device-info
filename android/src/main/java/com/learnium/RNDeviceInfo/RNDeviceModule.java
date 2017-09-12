@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.provider.Settings.Secure;
-import android.telephony.TelephonyManager;
 
 import com.google.android.gms.iid.InstanceID;
 
@@ -69,17 +68,6 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
       || "google_sdk".equals(Build.PRODUCT);
   }
 
- private String getDeviceIMEI() {
-    String deviceUniqueIdentifier = null;
-    TelephonyManager tm = (TelephonyManager) this.reactContext.getSystemService(Context.TELEPHONY_SERVICE);
-    if (null != tm) {
-        deviceUniqueIdentifier = tm.getDeviceId();
-    }
-    if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length()) {
-        deviceUniqueIdentifier = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-    }
-    return deviceUniqueIdentifier;
-}
   private Boolean isTablet() {
     int layout = getReactApplicationContext().getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
     return layout == Configuration.SCREENLAYOUT_SIZE_LARGE || layout == Configuration.SCREENLAYOUT_SIZE_XLARGE;
@@ -129,7 +117,6 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("model", Build.MODEL);
     constants.put("brand", Build.BRAND);
     constants.put("deviceId", Build.BOARD);
-    constants.put("deviceIMEI", this.getDeviceIMEI());
     constants.put("deviceLocale", this.getCurrentLanguage());
     constants.put("deviceCountry", this.getCurrentCountry());
     constants.put("uniqueId", Secure.getString(this.reactContext.getContentResolver(), Secure.ANDROID_ID));
