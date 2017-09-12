@@ -120,6 +120,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("deviceCountry", this.getCurrentCountry());
     constants.put("uniqueId", Secure.getString(this.reactContext.getContentResolver(), Secure.ANDROID_ID));
     constants.put("systemManufacturer", Build.MANUFACTURER);
+    constants.put("serialNumber", Build.SERIAL);
     constants.put("bundleId", packageName);
     constants.put("userAgent", System.getProperty("http.agent"));
     constants.put("timezone", TimeZone.getDefault().getID());
