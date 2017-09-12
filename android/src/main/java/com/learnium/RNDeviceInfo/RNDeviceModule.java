@@ -69,6 +69,17 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
       || "google_sdk".equals(Build.PRODUCT);
   }
 
+ private String getDeviceIMEI() {
+    String deviceUniqueIdentifier = null;
+    TelephonyManager tm = (TelephonyManager) this.reactContext.getSystemService(Context.TELEPHONY_SERVICE);
+    if (null != tm) {
+        deviceUniqueIdentifier = tm.getDeviceId();
+    }
+    if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length()) {
+        deviceUniqueIdentifier = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+    return deviceUniqueIdentifier;
+}
   private Boolean isTablet() {
     int layout = getReactApplicationContext().getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
     return layout == Configuration.SCREENLAYOUT_SIZE_LARGE || layout == Configuration.SCREENLAYOUT_SIZE_XLARGE;
@@ -110,7 +121,6 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
       e.printStackTrace();
     }
     
-    TelephonyManager imei = (TelephonyManager) this.reactContext.getSystemService(Context.TELEPHONY_SERVICE);
 
     constants.put("instanceId", InstanceID.getInstance(this.reactContext).getId());
     constants.put("deviceName", deviceName);
@@ -119,7 +129,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("model", Build.MODEL);
     constants.put("brand", Build.BRAND);
     constants.put("deviceId", Build.BOARD);
-    constants.put("deviceIMEI", imei);
+    constants.put("deviceIMEI", this.getDeviceIMEI());
     constants.put("deviceLocale", this.getCurrentLanguage());
     constants.put("deviceCountry", this.getCurrentCountry());
     constants.put("uniqueId", Secure.getString(this.reactContext.getContentResolver(), Secure.ANDROID_ID));
