@@ -35,6 +35,9 @@ module.exports = {
   getBuildNumber: function() {
     return RNDeviceInfo.buildNumber;
   },
+  getSerialNumber: function() {
+    return RNDeviceInfo.serialNumber;
+  },
   getVersion: function() {
     return RNDeviceInfo.appVersion;
   },
